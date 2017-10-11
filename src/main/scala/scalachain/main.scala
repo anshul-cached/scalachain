@@ -9,9 +9,11 @@ import scala.collection.mutable.ListBuffer
 
 object main {
 
+  val blockchain: ListBuffer[Block] = ListBuffer[Block]()
+
   def main(args: Array[String]) : Unit = {
 
-    val blockchain: ListBuffer[Block] = ListBuffer[Block]()
+    //val blockchain: ListBuffer[Block] = ListBuffer[Block]()
     //println(calculateHash(0,"abc","date",Map("A"->1l)))
     blockchain += getGenesisBlock
     print("Genesis:"+ blockchain)
@@ -48,7 +50,7 @@ object main {
     true
   }
 
-  def replaceChain(newBlocks:ListBuffer[Block], blockchain:ListBuffer[Block]) = {
+  def replaceChain(newBlocks:ListBuffer[Block]) = {
     if(isValidChain(newBlocks) && newBlocks.length > blockchain.length) {
       println("Received blockchain is valid. Replacing current blockchain with received blockchain")
       val newBlockchain = newBlocks.clone()
@@ -56,5 +58,22 @@ object main {
       println("Received blockchain invalid")
     }
   }
+
+  //Incomplete
+  def isValidChain(blockchain: ListBuffer[Block]):Boolean = {
+    blockchain.forall()
+
+  }
+
+  def calculateHashForBlock(block:Block) : String = {
+    calculateHash(block.index,block.previousHash,block.timestamp,block.data)
+  }
+
+  def addBlock(newBlock:Block) = {
+    if(isValidNewBlock(newBlock,getLatestBlock())) {
+      blockchain.append(newBlock)
+    }
+  }
+  
 
 }
